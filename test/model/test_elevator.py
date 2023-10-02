@@ -3,47 +3,49 @@ from elevator_controller.model.passenger import Passenger
 
 
 def test_is_empty():
-    e = Elevator(idle_target=0, top_floor=10, max_passengers=5)
+    e = Elevator(num_floors=10, max_capacity=5)
     assert e.is_empty()
-    e2 = Elevator(idle_target=0,
-                  top_floor=10,
-                  max_passengers=5,
-                  embarked_passengers=[Passenger("", source_floor=0, destination_floor=1, request_time=0)])
+    e2 = Elevator(num_floors=10, max_capacity=1)
+    e2.assign(Passenger(id="", source_floor=1, destination_floor=10, request_time=0))
     assert not e2.is_empty()
 
 
 def test_can_accommodate():
-    e = Elevator(idle_target=0, top_floor=10, max_passengers=5)
+    e = Elevator(num_floors=10, max_capacity=1)
     assert e.can_accommodate()
-    e2 = Elevator(idle_target=0,
-                  top_floor=10,
-                  max_passengers=5,
-                  embarked_passengers=[Passenger("", source_floor=0, destination_floor=1, request_time=0)] * 5)
+    e2 = Elevator(num_floors=10, max_capacity=1)
+    assert e2.embark(Passenger(id="", source_floor=1, destination_floor=10, request_time=0))
     assert not e2.can_accommodate()
 
 
 def test_is_idle():
-    e = Elevator(idle_target=0, top_floor=10, max_passengers=5)
+    e = Elevator(num_floors=10, max_capacity=1)
     assert e.is_idle()
-    e2 = Elevator(direction=Direction.UP, idle_target=0, top_floor=10, max_passengers=5)
+    e2 = Elevator(num_floors=10, max_capacity=1)
+    e2.direction = Direction.UP
     assert not e2.is_idle()
 
 
-def test_move():
-    e = Elevator(idle_target=0, top_floor=10, max_passengers=1)
-    assert e.current_floor == 0
+def test_move_drifts_toward_idle_target():
+    e = Elevator(num_floors=10, max_capacity=1)
+    assert e.current_floor == 1
+    e.idle_target = 2
+    e.move()
+    assert e.current_floor == 2
     e.idle_target = 1
     e.move()
     assert e.current_floor == 1
-    e.idle_target = 0
+
+
+def test_move_moves_to_pick_up_assigned_passenger():
+    e = Elevator(num_floors=10, max_capacity=1)
+    assert e.assign(Passenger(destination_floor=5, request_time=0, id="", source_floor=2))
     e.move()
-    assert e.current_floor == 0
-    assert e.request_pickup(Passenger(destination_floor=5, request_time=0, id="", source_floor=0))
-    e.move()
-    assert e.current_floor == 1
+    assert e.current_floor == 2
     assert not e.is_empty()
-    e.request_pickup(Passenger(destination_floor=5, request_time=0, id="", source_floor=2))
+    e.assign(Passenger(destination_floor=5, request_time=0, id="", source_floor=3))
     e.move()
     e.move()
-    assert e.current_floor == 3
-    assert not len(e.pending_passengers)
+    assert e.current_floor == 4
+    # the target heap has the two passengers' destination  floors.
+    assert e.targets[-1] == [5, 5]
