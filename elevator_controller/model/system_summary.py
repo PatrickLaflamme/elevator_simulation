@@ -15,20 +15,14 @@ class SystemSummary:
         self.n += 1
 
     def mean(self) -> float:
+        if self.n == 0:
+            return 0.0
         return self.sum / self.n
 
     def __dict__(self) -> Dict[str, Union[int, float]]:
         return {
-            "min": self.min_value,
-            "max": self.max_value,
+            "min": self.min_value if self.min_value < sys.maxsize else None,
+            "max": self.max_value if self.max_value > -1 else None,
             "mean": self.mean(),
             "n_passengers": self.n
         }
-
-    def __add__(self, other: "SystemSummary") -> "SystemSummary":
-        new_summary = SystemSummary()
-        new_summary.min_value = min(self.min_value, other.min_value)
-        new_summary.max_value = max(self.max_value, other.max_value)
-        new_summary.sum = self.sum + other.sum
-        new_summary.n = self.n + other.n
-        return new_summary
