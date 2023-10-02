@@ -5,7 +5,7 @@ from elevator_controller.model.elevator import Elevator
 
 
 class ElevatorSystemPersistenceStrategy(Protocol):
-    def persist(self, elevators: List[Elevator]):
+    def persist(self, t: int, elevators: List[Elevator]):
         ...
 
 
