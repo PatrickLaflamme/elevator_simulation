@@ -49,3 +49,16 @@ def test_move_moves_to_pick_up_assigned_passenger():
     assert e.current_floor == 4
     # the target heap has the two passengers' destination  floors.
     assert e.targets[-1] == [5, 5]
+
+
+def test_move_changes_elevator_to_idle_after_all_targets_achieved():
+    e = Elevator(num_floors=10, max_capacity=1)
+    assert e.assign(Passenger(destination_floor=5, request_time=0, id="", source_floor=2))
+    e.move()
+    e.move()
+    e.move()
+    e.move()
+    e.move()
+    assert e.current_floor == 5
+    # the target heap has the two passengers' destination  floors.
+    assert e.is_idle()
