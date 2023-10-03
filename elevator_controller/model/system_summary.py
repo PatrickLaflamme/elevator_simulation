@@ -7,12 +7,16 @@ class SystemSummary:
     max_value: int = -1
     sum: int = 0
     n: int = 0
+    no_action_passengers: int = 0
 
     def include(self, time: int):
         self.min_value = min(self.min_value, time)
         self.max_value = max(self.max_value, time)
         self.sum += time
         self.n += 1
+
+    def no_action(self):
+        self.no_action_passengers += 1
 
     def mean(self) -> float:
         if self.n == 0:
@@ -24,5 +28,6 @@ class SystemSummary:
             "min": self.min_value if self.min_value < sys.maxsize else None,
             "max": self.max_value if self.max_value > -1 else None,
             "mean": self.mean(),
-            "n_passengers": self.n
+            "n_passengers": self.n + self.no_action_passengers,
+            "no_action_passegners": self.no_action_passengers
         }
