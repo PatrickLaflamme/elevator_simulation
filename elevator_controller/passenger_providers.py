@@ -27,7 +27,7 @@ def csv_passenger_provider(f: IO) -> Iterator[List[Passenger]]:
     yield passengers
 
 
-def random_passenger_provider(n: int, p: float, n_steps: int, n_floors: int) -> Iterator[List[Passenger]]:
+def random_uniform_floor_selection_passenger_provider(n: int, p: float, n_steps: int, n_floors: int) -> Iterator[List[Passenger]]:
     i = 0
     logger.info("generating randomly sampled passengers for each time step")
     for time_step, n_passengers in enumerate(np.random.binomial(n=n, p=p, size=n_steps)):
@@ -35,7 +35,7 @@ def random_passenger_provider(n: int, p: float, n_steps: int, n_floors: int) -> 
         while source_floor > n_floors:
             source_floor = round(np.random.uniform(1, n_floors + 1))
         destination_floor = round(np.random.uniform(1, n_floors + 1))
-        while destination_floor > n_floors and destination_floor != source_floor:
+        while destination_floor > n_floors or destination_floor == source_floor:
             destination_floor = round(np.random.uniform(1, n_floors + 1))
         yield [Passenger(
             id=f"passenger{i + j}",
