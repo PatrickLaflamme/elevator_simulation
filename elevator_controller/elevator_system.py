@@ -39,6 +39,11 @@ class ElevatorSystem:
         self.wait_time_summary = SystemSummary()
         self.total_time_summary = SystemSummary()
 
+        # set up the initial elevator distribution across the floors.
+        self.idle_strategy.position_idle_elevators(self.elevators)
+        for e in self.elevators:
+            e.current_floor = e.idle_target
+
     def request_elevator(self, passenger: Passenger):
         elevator_index = self.assignment_strategy.assign_elevator(passenger, elevators=self.elevators)
         if elevator_index is None:

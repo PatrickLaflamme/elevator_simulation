@@ -29,5 +29,5 @@ class SystemSummary:
             "max": self.max_value if self.max_value > -1 else None,
             "mean": self.mean(),
             "n_passengers": self.n + self.no_action_passengers,
-            "no_action_passegners": self.no_action_passengers
+            "no_action_passengers": self.no_action_passengers
         }
