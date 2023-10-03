@@ -1,11 +1,7 @@
 import logging
 import sys
 
+logging.basicConfig(stream=sys.stdout, format='%(asctime)s - %(name)s - %(filename)s:%(lineno)d - %(levelname)s - %(message)s')
 root = logging.getLogger()
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-root.addHandler(handler)
+root.setLevel(logging.INFO)
 logger = logging.getLogger("elevator_controller")
-logger.addHandler(handler)
