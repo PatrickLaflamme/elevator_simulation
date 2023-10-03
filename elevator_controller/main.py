@@ -2,7 +2,7 @@ from io import StringIO
 
 import numpy as np
 
-from elevator_controller.elevator_system import ElevatorSystem
+from elevator_controller.elevator_controller import ElevatorController
 from elevator_controller.log import logger
 from elevator_controller.passenger_providers import random_uniform_floor_selection_passenger_provider
 from elevator_controller.strategies.assignment import DirectionalStrategy
@@ -18,7 +18,7 @@ def main():
     np.random.seed(1231235)
     passenger_provider = random_uniform_floor_selection_passenger_provider(n=5, p=0.2, n_steps=100, n_floors=n_floors)
     state_persistence = CsvPersistenceStrategy(f=csv_output)
-    elevator_system = ElevatorSystem(
+    elevator_system = ElevatorController(
         n_elevators=n_elevators,
         n_floors=n_floors,
         max_elevator_capacity=max_elevator_capacity,

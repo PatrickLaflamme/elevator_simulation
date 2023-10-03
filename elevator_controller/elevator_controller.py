@@ -9,7 +9,7 @@ from elevator_controller.strategies.elevator_system_persistence import ElevatorS
 from elevator_controller.strategies.idle import ElevatorIdleStrategy
 
 
-class ElevatorSystem:
+class ElevatorController:
     elevators: List[Elevator]
     assignment_strategy: ElevatorAssignmentStrategy
     idle_strategy: ElevatorIdleStrategy

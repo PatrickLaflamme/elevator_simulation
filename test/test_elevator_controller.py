@@ -1,6 +1,6 @@
 from io import StringIO
 
-from elevator_controller.elevator_system import ElevatorSystem
+from elevator_controller.elevator_controller import ElevatorController
 from elevator_controller.passenger_providers import csv_passenger_provider
 from elevator_controller.strategies.assignment import DirectionalStrategy
 from elevator_controller.strategies.elevator_system_persistence import CsvPersistenceStrategy
@@ -86,7 +86,7 @@ def test_full_system1():
     max_elevator_capacity = 5
     csv_output = StringIO()
     state_persistence = CsvPersistenceStrategy(f=csv_output)
-    elevator_system = ElevatorSystem(
+    elevator_system = ElevatorController(
         n_elevators=n_elevators,
         n_floors=n_floors,
         max_elevator_capacity=max_elevator_capacity,
