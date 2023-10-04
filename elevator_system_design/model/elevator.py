@@ -1,9 +1,9 @@
 from heapq import heappop, heappush
 from typing import List, Optional, Tuple
 
-from elevator_controller.log import logger
-from elevator_controller.model.direction import Direction
-from elevator_controller.model.passenger import Passenger
+from elevator_system_design.log import logger
+from elevator_system_design.model.direction import Direction
+from elevator_system_design.model.passenger import Passenger
 
 
 class InvalidDisembarkRequest(Exception):

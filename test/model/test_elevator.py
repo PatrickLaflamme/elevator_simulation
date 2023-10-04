@@ -1,5 +1,5 @@
-from elevator_controller.model.elevator import Elevator, Direction
-from elevator_controller.model.passenger import Passenger
+from elevator_system_design.model.elevator import Elevator, Direction
+from elevator_system_design.model.passenger import Passenger
 
 
 def test_is_empty():

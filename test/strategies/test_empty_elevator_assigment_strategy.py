@@ -1,6 +1,6 @@
-from elevator_controller.model.elevator import Elevator
-from elevator_controller.model.passenger import Passenger
-from elevator_controller.strategies.assignment import ClosestEmptyStrategy
+from elevator_system_design.model.elevator import Elevator
+from elevator_system_design.model.passenger import Passenger
+from elevator_system_design.strategies.assignment import ClosestEmptyStrategy
 
 
 def test_closest_empty_strategy_assigns_empty_elevator_thats_closest():

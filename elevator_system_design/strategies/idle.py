@@ -1,6 +1,6 @@
 from typing import Protocol, List
 
-from elevator_controller.model.elevator import Elevator
+from elevator_system_design.model.elevator import Elevator
 
 
 class ElevatorIdleStrategy(Protocol):
@@ -23,5 +23,5 @@ class EqualSpreadIdleStrategy:
         idle_elevators = [e for e in elevators if e.is_empty()]
         for i in range(len(idle_elevators)):
             elevator = idle_elevators[i]
-            target_floor = (i + 1) * top_floor // (len(idle_elevators) + 1)
+            target_floor = round((i + 0.5) * top_floor / (len(idle_elevators)))
             elevator.idle_target = target_floor

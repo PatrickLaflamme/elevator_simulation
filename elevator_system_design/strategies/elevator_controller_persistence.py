@@ -1,10 +1,10 @@
 import csv
 from typing import Protocol, List, Optional, Iterable, Any, IO
 
-from elevator_controller.model.elevator import Elevator
+from elevator_system_design.model.elevator import Elevator
 
 
-class ElevatorSystemPersistenceStrategy(Protocol):
+class ElevatorControllerPersistenceStrategy(Protocol):
     def persist(self, t: int, elevators: List[Elevator]):
         ...
 

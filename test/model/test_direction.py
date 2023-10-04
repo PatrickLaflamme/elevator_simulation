@@ -1,4 +1,4 @@
-from elevator_controller.model.direction import Direction
+from elevator_system_design.model.direction import Direction
 
 
 def test_reverse():

@@ -1,7 +1,7 @@
-from elevator_controller.model.direction import Direction
-from elevator_controller.model.elevator import Elevator
-from elevator_controller.model.passenger import Passenger
-from elevator_controller.strategies.assignment import DirectionalStrategy
+from elevator_system_design.model.direction import Direction
+from elevator_system_design.model.elevator import Elevator
+from elevator_system_design.model.passenger import Passenger
+from elevator_system_design.strategies.assignment import DirectionalStrategy
 
 
 def test_directional_strategy_assigns_elevator_on_same_floor_moving_in_passenger_dir():
