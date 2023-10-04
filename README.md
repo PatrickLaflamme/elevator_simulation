@@ -2,14 +2,6 @@
 
 A simple elevator simulation system built to model the behavior of multiple elevators serving multiple floors in a building. It takes into account various passenger requests with differing start and end floors, and optimizes elevator movement based on chosen strategies.
 
-## Features
-
-- **Multi-Elevator Management**: Handles routing and status for multiple elevators concurrently.
-- **Passenger Tracking**: Monitors each passenger's current status, including onboard and wait times.
-- **Adaptable Routing**: Efficiently manages elevator routes to accommodate both present and anticipated future passenger requests.
-- **Extensibility**: Allows for seamless addition of alternative routing strategies, idle behaviors, and passenger request providers
-- **Simulated Time-Steps**: Facilitates the testing of the system through hypothetical scenarios via simulated time steps.
-
 ## Assumptions and Decisions
 
 This solution is intended to be flexible, but in order to build something simple, some basic assumptions were made:
