@@ -2,6 +2,19 @@
 
 A simple elevator simulation system built to model the behavior of multiple elevators serving multiple floors in a building. It takes into account various passenger requests with differing start and end floors, and optimizes elevator movement based on chosen strategies.
 
+## Getting started
+
+This tool was implemented and tested using python 3.9.
+
+An example of the tool has been provided in `example.py`. To run it, navigate to the root of the project and 
+execute the following:
+
+```bash
+python3.9 -m venv venv
+pip install -r requirements.txt
+PYTHONPATH=elevator_system_design python example.py
+```
+
 ## Assumptions and Decisions
 
 This solution is intended to be flexible, but in order to build something simple, some basic assumptions were made:
