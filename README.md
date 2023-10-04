@@ -58,16 +58,18 @@ elevator that we may we pass along the way.Then, once all upward bound passenger
 highest source floor among the passengers who are downward bound and move downward, repeating the process. 
 
 The SCAN algorithm can be implemented with 3 heaps. In the event the elevator is moving up, those 3 heaps would be: 
-(1) a min-heap of all floors (pickup and drop-off) of upward bound passengers above the elevator's current floor;
-(2) a max-heap of all floors of downward bound passengers; and
-(3) a min-heap of all floors of upward bound passengers who are below the elevator's current floor. 
+1.  a min-heap of all floors (pickup and drop-off) of upward bound passengers above the elevator's current floor;
+2.  a max-heap of all floors of downward bound passengers; and
+3.  a min-heap of all floors of upward bound passengers who are below the elevator's current floor. 
 
-When heap (1) is empty, we move up to the first element in (2) if necessary, and rotate the heaps, changing directions
-to sweep downward. Rotating the heaps consists of moving heap (2) to position (1), heap (3) to position (2) and having
-and empty heap in position (3). Now, the elevator performs a downward sweep with the following heaps:
-(1) a max-heap of all floors (pickup and drop-off) of downward bound passengers below the elevator's current floor;
-(2) a min-heap of all floors of upward bound passengers; and
-(3) a max-heap of all floors of downward bound passengers who are above the elevator's current floor.
+The elevator proceeds in the current direction (here, it's upward) until all floors in heap (1) have been 
+visited. When heap (1) is empty, we move up to the first element in (2) if head (2) starts above the current floor, and 
+rotate the heaps, changing directions to sweep downward. Rotating the heaps consists of moving heap (2) to position (1), 
+heap (3) to position (2) and having and empty heap in position (3). Now, the elevator performs a downward sweep with the 
+following heaps:
+1. a max-heap of all floors (pickup and drop-off) of downward bound passengers below the elevator's current floor;
+2. a min-heap of all floors of upward bound passengers; and
+3. a max-heap of all floors of downward bound passengers who are above the elevator's current floor.
 
 ### Elevator Assignment
 
