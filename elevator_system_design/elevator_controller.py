@@ -1,19 +1,19 @@
 from typing import List, Set, Iterator
 
-from elevator_controller.log import logger
-from elevator_controller.model.elevator import Elevator
-from elevator_controller.model.passenger import Passenger
-from elevator_controller.model.system_summary import SystemSummary
-from elevator_controller.strategies.assignment import ElevatorAssignmentStrategy
-from elevator_controller.strategies.elevator_system_persistence import ElevatorSystemPersistenceStrategy
-from elevator_controller.strategies.idle import ElevatorIdleStrategy
+from elevator_system_design.log import logger
+from elevator_system_design.model.elevator import Elevator
+from elevator_system_design.model.passenger import Passenger
+from elevator_system_design.model.system_summary import SystemSummary
+from elevator_system_design.strategies.assignment import ElevatorAssignmentStrategy
+from elevator_system_design.strategies.elevator_controller_persistence import ElevatorControllerPersistenceStrategy
+from elevator_system_design.strategies.idle import ElevatorIdleStrategy
 
 
 class ElevatorController:
     elevators: List[Elevator]
     assignment_strategy: ElevatorAssignmentStrategy
     idle_strategy: ElevatorIdleStrategy
-    state_persistence_strategy: ElevatorSystemPersistenceStrategy
+    state_persistence_strategy: ElevatorControllerPersistenceStrategy
     waiting_passengers: List[List[List[Passenger]]]
     embarked_passengers: List[List[List[Passenger]]]
     num_floors: int
@@ -26,10 +26,10 @@ class ElevatorController:
                  n_elevators: int,
                  n_floors: int,
                  max_elevator_capacity: int,
-                 persistence_strategy: ElevatorSystemPersistenceStrategy,
+                 persistence_strategy: ElevatorControllerPersistenceStrategy,
                  assignment_strategy: ElevatorAssignmentStrategy,
                  idle_strategy: ElevatorIdleStrategy,
-                 stop_time: int = 0,):
+                 stop_time: int = 0, ):
         self.elevators = [Elevator(num_floors=n_floors, max_capacity=max_elevator_capacity, stop_time=stop_time) for _ in range(n_elevators)]
         self.state_persistence_strategy = persistence_strategy
         self.assignment_strategy = assignment_strategy

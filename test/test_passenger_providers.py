@@ -2,8 +2,8 @@ from io import StringIO
 
 import numpy as np
 
-from elevator_controller.model.passenger import Passenger
-from elevator_controller.passenger_providers import csv_passenger_provider, \
+from elevator_system_design.model.passenger import Passenger
+from elevator_system_design.passenger_providers import csv_passenger_provider, \
     random_uniform_floor_selection_passenger_provider
 
 input_str = """time,id,source,dest

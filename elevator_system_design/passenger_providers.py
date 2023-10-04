@@ -3,8 +3,8 @@ from typing import Iterator, List, IO
 
 import numpy as np
 
-from elevator_controller.log import logger
-from elevator_controller.model.passenger import Passenger
+from elevator_system_design.log import logger
+from elevator_system_design.model.passenger import Passenger
 
 
 def csv_passenger_provider(f: IO) -> Iterator[List[Passenger]]:

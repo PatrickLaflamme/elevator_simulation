@@ -2,12 +2,12 @@ from io import StringIO
 
 import numpy as np
 
-from elevator_controller.elevator_controller import ElevatorController
-from elevator_controller.log import logger
-from elevator_controller.passenger_providers import random_uniform_floor_selection_passenger_provider
-from elevator_controller.strategies.assignment import DirectionalStrategy
-from elevator_controller.strategies.elevator_system_persistence import CsvPersistenceStrategy
-from elevator_controller.strategies.idle import EqualSpreadIdleStrategy
+from elevator_system_design.elevator_controller import ElevatorController
+from elevator_system_design.log import logger
+from elevator_system_design.passenger_providers import random_uniform_floor_selection_passenger_provider
+from elevator_system_design.strategies.assignment import DirectionalStrategy
+from elevator_system_design.strategies.elevator_controller_persistence import CsvPersistenceStrategy
+from elevator_system_design.strategies.idle import EqualSpreadIdleStrategy
 
 
 def main():

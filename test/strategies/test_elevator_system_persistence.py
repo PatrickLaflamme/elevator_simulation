@@ -1,7 +1,7 @@
 from io import StringIO
 
-from elevator_controller.model.elevator import Elevator
-from elevator_controller.strategies.elevator_system_persistence import CsvPersistenceStrategy
+from elevator_system_design.model.elevator import Elevator
+from elevator_system_design.strategies.elevator_controller_persistence import CsvPersistenceStrategy
 
 
 def test_csv_elevator_persistence():

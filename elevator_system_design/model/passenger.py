@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from pydantic import BaseModel
 
-from elevator_controller.model.direction import Direction
+from elevator_system_design.model.direction import Direction
 
 
 @dataclass(unsafe_hash=True, frozen=True)

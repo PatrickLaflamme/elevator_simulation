@@ -1,4 +1,4 @@
-from elevator_controller.model.system_summary import SystemSummary
+from elevator_system_design.model.system_summary import SystemSummary
 
 
 def test_summary_stats():

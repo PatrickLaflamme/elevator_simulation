@@ -2,8 +2,8 @@ import math
 import sys
 from typing import Protocol, List, Optional
 
-from elevator_controller.model.elevator import Elevator
-from elevator_controller.model.passenger import Passenger
+from elevator_system_design.model.elevator import Elevator
+from elevator_system_design.model.passenger import Passenger
 
 
 class ElevatorAssignmentStrategy(Protocol):
