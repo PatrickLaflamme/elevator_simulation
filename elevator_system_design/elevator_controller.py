@@ -5,7 +5,8 @@ from elevator_system_design.model.elevator import Elevator
 from elevator_system_design.model.passenger import Passenger
 from elevator_system_design.model.system_summary import SystemSummary
 from elevator_system_design.strategies.assignment import ElevatorAssignmentStrategy
-from elevator_system_design.strategies.elevator_controller_persistence import ElevatorControllerPersistenceStrategy
+from elevator_system_design.strategies.elevator_controller_persistence import ElevatorControllerPersistenceStrategy, \
+    NoopPersistenceStrategy
 from elevator_system_design.strategies.idle import ElevatorIdleStrategy
 
 
@@ -26,10 +27,10 @@ class ElevatorController:
                  n_elevators: int,
                  n_floors: int,
                  max_elevator_capacity: int,
-                 persistence_strategy: ElevatorControllerPersistenceStrategy,
                  assignment_strategy: ElevatorAssignmentStrategy,
                  idle_strategy: ElevatorIdleStrategy,
-                 stop_time: int = 0, ):
+                 stop_time: int = 0,
+                 persistence_strategy: ElevatorControllerPersistenceStrategy = NoopPersistenceStrategy()):
         self.elevators = [Elevator(num_floors=n_floors, max_capacity=max_elevator_capacity, stop_time=stop_time) for _ in range(n_elevators)]
         self.state_persistence_strategy = persistence_strategy
         self.assignment_strategy = assignment_strategy
@@ -107,7 +108,12 @@ class ElevatorController:
         }
 
     def print_stats(self):
-        from tabulate import tabulate
+        try:
+            # This try-catch exists to avoid making tabulate a hard dependency of this tool.
+            from tabulate import tabulate
+        except ImportError:
+            print("The tabulate library is required to run this function. run `pip install tabulate` to install it.")
+            return
         print(tabulate([
             {"time_period": "wait time", **self.wait_time_summary.__dict__()},
             {"time_period": "total time", **self.total_time_summary.__dict__()},

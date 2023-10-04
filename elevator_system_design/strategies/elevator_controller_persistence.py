@@ -20,6 +20,11 @@ class Writer(Protocol):
         ...
 
 
+class NoopPersistenceStrategy:
+    def persist(self, t: int, elevators: List[Elevator]):
+        pass
+
+
 class CsvPersistenceStrategy:
     wr: Writer
     n_elevators: Optional[int] = None
