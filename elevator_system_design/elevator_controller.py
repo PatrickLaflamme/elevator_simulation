@@ -118,8 +118,8 @@ class ElevatorController:
             elevator.move()
         for pending_passenger in sorted(self.pending_passengers, key=lambda p: p.request_time):
             self.request_elevator(pending_passenger)
-        self.state_persistence_strategy.persist(self.time, self.elevators)
         self.time += 1
+        self.state_persistence_strategy.persist(self.time, self.elevators)
 
     def handle_passenger_requests(self, passenger_request_source: Iterator[List[Passenger]]):
         """
