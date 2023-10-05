@@ -14,6 +14,11 @@ class Passenger(BaseModel):
 
     @property
     def direction(self) -> Direction:
+        """
+        The function determines the passenger's direction of travel based on the source and destination floors.
+        :return: the direction in which the passenger wants to move. If the source floor is greater than the destination
+        floor, it will return Direction.DOWN. Otherwise, it will return Direction.UP.
+        """
         if self.source_floor > self.destination_floor:
             return Direction.DOWN
         else:

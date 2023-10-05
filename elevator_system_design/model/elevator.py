@@ -32,21 +32,49 @@ class Elevator:
     idle_target: Optional[int] = None
 
     def __init__(self, num_floors: int, max_capacity: int, stop_time: int = 0):
+        """
+        The function initializes an elevator object with the specified number of floors, maximum capacity, and optional stop
+        time.
+
+        :param num_floors: The `num_floors` parameter represents the total number of floors in the building
+        :type num_floors: int
+        :param max_capacity: The `max_capacity` parameter represents the maximum number of people that the elevator can hold
+        at a time
+        :type max_capacity: int
+        :param stop_time: The `stop_time` parameter represents the time it takes for the elevator to stop at each floor.
+        Defaults to 0.
+        :type stop_time: int (optional)
+        """
         self.stop_time = stop_time
         self.num_floors = num_floors
         self.max_capacity = max_capacity
         self.targets = ([], [], [])
 
     def is_empty(self) -> bool:
+        """
+        The function `is_empty` checks if all the elevator is empty and has no target floors.
+        :return: a boolean value indicating whether the elevator has any target floors.
+        """
         return sum([len(h) for h in self.targets]) == 0
 
     def is_idle(self) -> bool:
+        """
+        The function checks if the elevator is idle.
+        :return: a boolean value, specifically whether the direction is equal to the IDLE direction.
+        """
         return self.direction == Direction.IDLE
 
     def can_accommodate(self) -> bool:
+        """
+        The function checks if the current passenger count is less than the maximum capacity.
+        :return: a boolean value, indicating whether the passenger count is less than the maximum capacity.
+        """
         return self.passenger_count < self.max_capacity
 
     def adjust_targets(self):
+        """
+        The function adjusts the elevator's target floors based on its current direction and floor.
+        """
         cur_dir_below_cur_floor, opposite_dir, cur_dir = self.targets
         for _ in range(3):
             while len(cur_dir) and (cur_dir[0] * self.direction.value) == self.current_floor:
@@ -65,6 +93,11 @@ class Elevator:
                 cur_dir_below_cur_floor, opposite_dir, cur_dir = self.targets
 
     def move(self):
+        """
+        The function `move` is responsible for adjusting the elevator's targets and moving the elevator accordingly.
+        This can be considered to be the movement achieved in one time-step for this elevator.
+        :return: The code does not explicitly return anything.
+        """
         self.adjust_targets()
         cur_dir_below_cur_floor, opposite_dir, cur_dir = self.targets
         if self.current_stop_remaining > 0:
@@ -86,6 +119,14 @@ class Elevator:
         self.current_floor = max(1, min(self.num_floors, self.current_floor + self.direction.value))
 
     def assign(self, passenger: Passenger) -> bool:
+        """
+        The `assign` function assigns a passenger to an elevator and updates the elevator's targets based on the passenger's
+        source and destination floors.
+
+        :param passenger: The "passenger" parameter is an instance of the "Passenger" class
+        :type passenger: Passenger
+        :return: a boolean value, which is always True.
+        """
         cur_dir_below_cur_floor, opposite_dir, cur_dir = self.targets
         if self.is_empty() and passenger.source_floor >= self.current_floor:
             self.direction = Direction.UP
@@ -106,6 +147,15 @@ class Elevator:
         return True
 
     def embark(self, passenger: Passenger) -> bool:
+        """
+        The `embark` function checks if the elevator can accommodate a passenger, if it is on the correct floor and
+        moving in the correct direction to embark the passenger. If so, it increments the passenger count, considering
+        the passenger to be on the elevator.
+
+        :param passenger: The "passenger" parameter is of type "Passenger"
+        :type passenger: Passenger
+        :return: The method `embark` returns a boolean value.
+        """
         if passenger.source_floor != self.current_floor:
             logger.error(f"Attempt to embark passenger {passenger.id} from floor {passenger.source_floor} while the "
                          f"elevator is on floor {self.current_floor}")
@@ -122,13 +172,19 @@ class Elevator:
                              f"passenger direction: {passenger.direction}; elevator direction: {self.direction}")
                 return False
         self.passenger_count += 1
-        _, _, cur_dir = self.targets
         return True
 
-    def disembark(self, passenger: Passenger) -> bool:
+    def disembark(self, passenger: Passenger):
+        """
+        The `disembark` function checks if a passenger wants to disembark at the current floor and updates the passenger
+        count.
+
+        :param passenger: The "passenger" parameter is an instance of the "Passenger" class. It represents a passenger who
+        wants to disembark from the elevator
+        :type passenger: Passenger
+        """
         if passenger.destination_floor != self.current_floor:
             raise InvalidDisembarkRequest(passenger_id=passenger.id,
                                           passenger_dest_floor=passenger.destination_floor,
                                           current_elevator_floor=self.current_floor)
         self.passenger_count -= 1
-        return True

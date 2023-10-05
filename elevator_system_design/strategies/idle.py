@@ -5,11 +5,23 @@ from elevator_system_design.model.elevator import Elevator
 
 class ElevatorIdleStrategy(Protocol):
     def position_idle_elevators(self, elevators: List[Elevator]):
+        """
+        The function positions idle elevators.
+
+        :param elevators: The "elevators" parameter is a list of Elevator objects
+        :type elevators: List[Elevator]
+        """
         ...
 
 
 class MiddleFloorIdleStrategy:
     def position_idle_elevators(self, elevators: List[Elevator]):
+        """
+        The function sets the idle target floor for each elevator to the middle floor of the building.
+
+        :param elevators: The "elevators" parameter is a list of Elevator objects
+        :type elevators: List[Elevator]
+        """
         for elevator in elevators:
             middle_floor = elevator.num_floors // 2
             elevator.idle_target = middle_floor
@@ -17,6 +29,12 @@ class MiddleFloorIdleStrategy:
 
 class EqualSpreadIdleStrategy:
     def position_idle_elevators(self, elevators: List[Elevator]):
+        """
+        The function positions idle elevators evenly across the floors they can reach.
+
+        :param elevators: The `elevators` parameter is a list of `Elevator` objects
+        :type elevators: List[Elevator]
+        """
         assert len(elevators) > 0
         assert len(set([e.num_floors for e in elevators])) == 1
         top_floor = elevators[0].num_floors

@@ -8,6 +8,14 @@ from elevator_system_design.model.passenger import Passenger
 
 
 def csv_passenger_provider(f: IO) -> Iterator[List[Passenger]]:
+    """
+    The function `csv_passenger_provider` reads a CSV file and yields a list of passengers for each request time. If no
+    passengers are present for a given time, and empty list is returend.
+
+    :param f: The parameter `f` is an input file object of type `IO`. It is used to read the contents of a CSV file that
+    contains information about passengers
+    :type f: IO
+    """
     reader = DictReader(f)
     i = 0
     passengers = []
@@ -28,6 +36,20 @@ def csv_passenger_provider(f: IO) -> Iterator[List[Passenger]]:
 
 
 def random_uniform_floor_selection_passenger_provider(n: int, p: float, n_steps: int, n_floors: int) -> Iterator[List[Passenger]]:
+    """
+    The function generates randomly sampled passengers for each time step, with specified parameters for the number of
+    passengers, probability of a passenger appearing, number of time steps, and number of floors.
+
+    :param n: The parameter `n` represents the total number of passengers that can be generated, sampled from a binomial distribution
+    :type n: int
+    :param p: The parameter `p` represents the probability of a passenger arriving at each time step. It is used in the
+    `np.random.binomial` function to determine the number of passengers that arrive at each time step
+    :type p: float
+    :param n_steps: The parameter `n_steps` represents the number of time steps for which passengers will be generated
+    :type n_steps: int
+    :param n_floors: The parameter `n_floors` represents the total number of floors in the building
+    :type n_floors: int
+    """
     i = 0
     logger.info("generating randomly sampled passengers for each time step")
     for time_step, n_passengers in enumerate(np.random.binomial(n=n, p=p, size=n_steps)):
