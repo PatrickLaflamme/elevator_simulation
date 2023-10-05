@@ -71,6 +71,26 @@ class Elevator:
         """
         return self.passenger_count < self.max_capacity
 
+    def has_target_with_direction(self, target: int, direction: Direction) -> bool:
+        target_with_dir = target * direction.value
+        return any([target_with_dir in h for h in self.targets])
+
+    def distance_from(self, target: int, direction: Direction) -> int:
+        if self.direction == Direction.IDLE:
+            return abs(target - self.current_floor)
+        target_with_dir = target * direction.value
+        if self.current_floor * self.direction.value < target_with_dir:
+            return abs(target - self.current_floor) + sum({1 for t in self.targets[-1] if t <= target_with_dir}) * self.stop_time
+        end_of_current_sweep = abs(max(abs(max(self.targets[-1]) if self.targets[-1] else 0) * self.direction.value, abs(max(self.targets[1]) if self.targets[1] else 0) * self.direction.value))
+        distance_to_turn = abs(self.current_floor - abs(end_of_current_sweep)) + len(set(self.targets[-1])) * self.stop_time
+        if direction != self.direction:
+            distance_from_turn_to_target = abs(abs(end_of_current_sweep) - target) + sum({1 for t in self.targets[1] if t <= target_with_dir}) * self.stop_time
+            return distance_to_turn + distance_from_turn_to_target
+        end_of_next_sweep = abs(max(abs(max(self.targets[0]) if self.targets[0] else 0) * self.direction.value, abs(max(self.targets[1]) if self.targets[1] else 0) * self.direction.value))
+        distance_to_next_turn = abs(abs(end_of_next_sweep) - abs(end_of_current_sweep)) + len(set(self.targets[1])) * self.stop_time
+        distance_from_next_turn_to_target = abs(abs(end_of_next_sweep) - target) + sum({1 for t in self.targets[0] if t <= target_with_dir}) * self.stop_time
+        return distance_to_turn + distance_to_next_turn + distance_from_next_turn_to_target
+
     def adjust_targets(self):
         """
         The function adjusts the elevator's target floors based on its current direction and floor.
@@ -128,17 +148,17 @@ class Elevator:
         :return: a boolean value, which is always True.
         """
         cur_dir_below_cur_floor, opposite_dir, cur_dir = self.targets
-        if self.is_empty() and passenger.source_floor >= self.current_floor:
+        if self.is_empty() and passenger.source_floor > self.current_floor:
             self.direction = Direction.UP
             heappush(cur_dir, passenger.source_floor)
-        elif self.is_empty() and passenger.source_floor <= self.current_floor:
+        elif self.is_empty() and passenger.source_floor < self.current_floor:
             self.direction = Direction.DOWN
             heappush(cur_dir, passenger.source_floor * -1)
 
         if passenger.direction.value * self.direction.value < 0:
             heappush(opposite_dir, passenger.source_floor * passenger.direction.value)
             heappush(opposite_dir, passenger.destination_floor * passenger.direction.value)
-        elif (passenger.source_floor - self.current_floor) * self.direction.value < 0:
+        elif (passenger.source_floor - self.current_floor) * self.direction.value <= 0:
             heappush(cur_dir_below_cur_floor, passenger.source_floor * passenger.direction.value)
             heappush(cur_dir_below_cur_floor, passenger.destination_floor * passenger.direction.value)
         else:

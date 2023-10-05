@@ -62,3 +62,14 @@ def test_move_changes_elevator_to_idle_after_all_targets_achieved():
     assert e.current_floor == 5
     # the target heap has the two passengers' destination  floors.
     assert e.is_idle()
+
+
+def test_assign_passenger_puts_current_floor_on_next_sweep():
+    e = Elevator(num_floors=10, max_capacity=1)
+    e.current_floor = 3
+    e.assign(Passenger(destination_floor=5, request_time=0, id="", source_floor=3))
+    # current sweep is empty
+    assert e.targets[-1] == []
+    # next upward sweep is populated with the source and dest floors of the passenger
+    assert e.targets[0] == [3, 5]
+
