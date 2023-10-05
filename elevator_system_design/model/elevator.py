@@ -98,7 +98,6 @@ class Elevator:
         This can be considered to be the movement achieved in one time-step for this elevator.
         :return: The code does not explicitly return anything.
         """
-        self.adjust_targets()
         cur_dir_below_cur_floor, opposite_dir, cur_dir = self.targets
         if self.current_stop_remaining > 0:
             self.current_stop_remaining -= 1
@@ -117,6 +116,7 @@ class Elevator:
         elif cur_dir[0] < 0:
             self.direction = Direction.DOWN
         self.current_floor = max(1, min(self.num_floors, self.current_floor + self.direction.value))
+        self.adjust_targets()
 
     def assign(self, passenger: Passenger) -> bool:
         """
@@ -166,11 +166,9 @@ class Elevator:
             logger.debug(f"Elevator is too full to embark passenger {passenger.id}")
             return False
         if passenger.direction != self.direction:
-            current_targets_complete = all([t * self.direction.value == self.current_floor for t in self.targets[-1]])
-            if not self.is_idle() and not self.is_empty() and not current_targets_complete:
-                logger.debug(f"Elevator is moving in the wrong direction to embark passenger {passenger.id}: "
-                             f"passenger direction: {passenger.direction}; elevator direction: {self.direction}")
-                return False
+            logger.debug(f"Elevator is moving in the wrong direction to embark passenger {passenger.id}: "
+                         f"passenger direction: {passenger.direction}; elevator direction: {self.direction}")
+            return False
         self.passenger_count += 1
         return True
 

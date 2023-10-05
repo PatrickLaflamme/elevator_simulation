@@ -107,17 +107,18 @@ class ElevatorController:
                 elevator.disembark(p)
                 logger.debug(f"elevator {i} dropped off {p.id} on floor {elevator.current_floor} after {self.time - p.request_time} steps. direction: {elevator.direction} remaining targets: {elevator.targets}")
                 self.total_time_summary.include(self.time - p.request_time)
-            while len(self.waiting_passengers[i][elevator.current_floor - 1]) and elevator.passenger_count < elevator.max_capacity:
+            while len(self.waiting_passengers[i][elevator.current_floor - 1]):
                 p = self.waiting_passengers[i][elevator.current_floor - 1].pop()
                 if elevator.embark(p):
                     logger.debug(f"elevator {i} picked up {p.id} on floor {elevator.current_floor} after {self.time - p.request_time} steps heading {elevator.direction} to {p.destination_floor}")
                     self.embarked_passengers[i][p.destination_floor - 1].append(p)
                     self.wait_time_summary.include(self.time - p.request_time)
                 else:
-                    self.request_elevator(p)
+                    self.pending_passengers.add(p)
             elevator.move()
         for pending_passenger in list(self.pending_passengers):
             self.request_elevator(pending_passenger)
+        self.state_persistence_strategy.persist(self.time, self.elevators)
         self.time += 1
 
     def handle_passenger_requests(self, passenger_request_source: Iterator[List[Passenger]]):
@@ -142,14 +143,12 @@ class ElevatorController:
                     continue
                 self.request_elevator(passenger)
             self.step()
-            self.state_persistence_strategy.persist(self.time, self.elevators)
         logger.info(f"all {total_passengers} passengers acknowledged at step {self.time}")
         while len(self.pending_passengers):
             self.step()
         logger.info(f"all {total_passengers} passengers assigned to an elevator at step {self.time}")
-        while any([not e.is_empty() for e in self.elevators]):
+        while self.total_time_summary.n < total_passengers:
             self.step()
-            self.state_persistence_strategy.persist(self.time, self.elevators)
         logger.info(f"all {total_passengers} passengers delivered to their destinations at step {self.time}")
 
     def get_stats(self):
