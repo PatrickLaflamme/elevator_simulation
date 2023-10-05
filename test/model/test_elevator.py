@@ -14,6 +14,7 @@ def test_can_accommodate():
     e = Elevator(num_floors=10, max_capacity=1)
     assert e.can_accommodate()
     e2 = Elevator(num_floors=10, max_capacity=1)
+    e2.direction = Direction.UP
     assert e2.embark(Passenger(id="", source_floor=1, destination_floor=10, request_time=0))
     assert not e2.can_accommodate()
 
