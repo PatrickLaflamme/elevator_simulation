@@ -5,14 +5,14 @@ import numpy as np
 from elevator_system_design.elevator_controller import ElevatorController
 from elevator_system_design.log import logger
 from elevator_system_design.passenger_providers import random_uniform_floor_selection_passenger_provider
-from elevator_system_design.strategies.assignment import DirectionalStrategy
+from elevator_system_design.strategies.assignment import ExistingStopStrategy
 from elevator_system_design.strategies.elevator_controller_persistence import CsvPersistenceStrategy
 from elevator_system_design.strategies.idle import EqualSpreadIdleStrategy
 
 
 def main():
     n_floors = 60
-    n_elevators = 32
+    n_elevators = 3
     max_elevator_capacity = 5
     csv_output = StringIO()
     np.random.seed(1231235)
@@ -23,7 +23,7 @@ def main():
         n_floors=n_floors,
         max_elevator_capacity=max_elevator_capacity,
         persistence_strategy=state_persistence,
-        assignment_strategy=DirectionalStrategy(),
+        assignment_strategy=ExistingStopStrategy(),
         idle_strategy=EqualSpreadIdleStrategy(),
         stop_time=0
     )

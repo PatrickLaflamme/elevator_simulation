@@ -123,7 +123,7 @@ This strategy is slightly more sophisticated and assigns passengers to elevators
 as the passenger which haven't yet passed the passenger. If no elevator meets these conditions, then the strategy attempts
 to re-assign an elevator at the next time step. 
 
-#### Source/Destination Match Strategy (TODO)
+#### Existing Stop Strategy
 
 This strategy considers a passenger's source and destination floors, attempting to assign the passenger to an elevator
 that is already stopping there. If no such elevator exists, it will use the `Directional Match Elevator Strategy`

@@ -73,3 +73,46 @@ class DirectionalStrategy:
                 min_distance = elevator_distance
                 assigned_elevator = elevator_idx
         return assigned_elevator
+
+
+class ExistingStopStrategy:
+    directional_strategy = DirectionalStrategy()
+
+    def assign_elevator(self, passenger: Passenger, elevators: List[Elevator]) -> Optional[int]:
+        """
+        The function assigns a passenger to an elevator based on whether an elevator is already planning to stop at the
+        passenger's source and/or destination floors.
+
+        :param passenger: The `passenger` parameter represents the passenger who needs to be assigned to an elevator. It is
+        of type `Passenger`
+        :type passenger: Passenger
+        :param elevators: The `elevators` parameter is a list of `Elevator` objects. Each `Elevator` object represents an
+        elevator in a building
+        :type elevators: List[Elevator]
+        :return: the index of the assigned elevator as an integer, or None if no elevator is assigned.
+        """
+        candidate_elevators = range(len(elevators))
+        has_source_floor = []
+        for i in range(len(elevators)):
+            e = elevators[i]
+            if e.has_target_with_direction(passenger.source_floor, passenger.direction):
+                has_source_floor.append(i)
+        if len(has_source_floor) > 0:
+            candidate_elevators = has_source_floor
+        has_source_and_dest_floor = []
+        for i in has_source_floor:
+            e = elevators[i]
+            if e.has_target_with_direction(passenger.destination_floor, passenger.direction):
+                has_source_and_dest_floor.append(i)
+        if len(has_source_and_dest_floor) > 0:
+            candidate_elevators = has_source_and_dest_floor
+
+        min_distance = sys.maxsize
+        assigned_elevator: Optional[int] = None
+        for elevator_idx in candidate_elevators:
+            elevator = elevators[elevator_idx]
+            elevator_distance = elevator.distance_from(passenger.source_floor, passenger.direction)
+            if elevator.can_accommodate() and elevator_distance < min_distance:
+                min_distance = elevator_distance
+                assigned_elevator = elevator_idx
+        return assigned_elevator
