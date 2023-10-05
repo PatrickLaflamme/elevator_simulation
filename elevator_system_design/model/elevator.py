@@ -72,10 +72,33 @@ class Elevator:
         return self.passenger_count < self.max_capacity
 
     def has_target_with_direction(self, target: int, direction: Direction) -> bool:
+        """
+        The function checks if a target already exists in the provided direction for this elevator.
+        attribute of the object.
+
+        :param target: The target parameter is an integer representing the target value that we are checking for
+        :type target: int
+        :param direction: The `direction` parameter is of type `Direction`, which is likely an enumeration or a custom class
+        representing different directions (e.g., north, south, east, west)
+        :type direction: Direction
+        :return: a boolean value.
+        """
         target_with_dir = target * direction.value
         return any([target_with_dir in h for h in self.targets])
 
     def distance_from(self, target: int, direction: Direction) -> int:
+        """
+        The function calculates the distance from the current floor to a target floor based on the elevator's direction and
+        current targets.
+
+        :param target: The `target` parameter in the `distance_from` method is an integer representing the floor number that
+        the elevator needs to reach
+        :type target: int
+        :param direction: The `direction` parameter is of type `Direction`, which is an enumeration. It represents the
+        direction in which the target is located relative to the current position
+        :type direction: Direction
+        :return: an integer value, which represents the distance from the current floor to the target floor.
+        """
         if self.direction == Direction.IDLE:
             return abs(target - self.current_floor)
         target_with_dir = target * direction.value
