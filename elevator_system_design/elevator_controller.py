@@ -116,7 +116,7 @@ class ElevatorController:
                 else:
                     self.pending_passengers.add(p)
             elevator.move()
-        for pending_passenger in list(self.pending_passengers):
+        for pending_passenger in sorted(self.pending_passengers, key=lambda p: p.request_time):
             self.request_elevator(pending_passenger)
         self.state_persistence_strategy.persist(self.time, self.elevators)
         self.time += 1
