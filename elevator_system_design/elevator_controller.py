@@ -149,6 +149,8 @@ class ElevatorController:
         logger.info(f"all {total_passengers} passengers assigned to an elevator at step {self.time}")
         while self.total_time_summary.n < total_passengers:
             self.step()
+            if self.time % 1000 == 0:
+                logger.info(f"time: {self.time}; embarked_passengers: {sum([len(p) for l in self.embarked_passengers for p in l])}; waiting_passengers: {sum([len(w) for l in self.waiting_passengers for w in l])}; idle_elevators: {len([e for e in self.elevators if e.is_idle()])}", flush=True)
         logger.info(f"all {total_passengers} passengers delivered to their destinations at step {self.time}")
 
     def get_stats(self):
