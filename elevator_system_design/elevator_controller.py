@@ -162,7 +162,7 @@ class ElevatorController:
             'total_time': self.total_time_summary.__dict__()
         }
 
-    def print_stats(self):
+    def print_stats(self, print_func=print, table_fmt="simple_grid"):
         """
         The `print_stats` function prints a summary of wait time and total time using the tabulate library.
         :return: the tabulated statistics for wait time and total time.
@@ -171,9 +171,9 @@ class ElevatorController:
             # This try-catch exists to avoid making tabulate a hard dependency of this tool.
             from tabulate import tabulate
         except ImportError:
-            print("The tabulate library is required to run this function. run `pip install tabulate` to install it.")
+            print_func("The tabulate library is required to run this function. run `pip install tabulate` to install it.")
             return
-        print(tabulate([
+        print_func(tabulate([
             {"time_period": "wait time", **self.wait_time_summary.__dict__()},
             {"time_period": "total time", **self.total_time_summary.__dict__()},
-        ], headers='keys'))
+        ], headers='keys', tablefmt=table_fmt))
