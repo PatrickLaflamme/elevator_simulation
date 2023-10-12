@@ -145,7 +145,7 @@ benefits in the event that the use-case involves minimal unnecessary elevator mo
 This strategy spreads all elevators equally across the floors, such that the distance between one idle elevator and any
 given floor is minimized.
 
-#### Usage Pattern Weighted Spread Idle Strategy (TODO)
+#### Usage Pattern Weighted Spread Idle Strategy
 
 This strategy spreads elevators across floors, weighting each floor based on historical stats on how often that floor 
 is a source floor for passengers.
@@ -167,7 +167,7 @@ step with source and destination floors that are randomly sampled from a uniform
 floors. Generated passengers whose source and destination floors are the same are ignored. You can find the source code
 [here](elevator_system_design/passenger_providers.py).
 
-### Randomly generate passenger requests where source/destination floors follow a statistical curve (TODO)
+### Randomly generate passenger requests where source/destination floors follow a statistical curve
 
 Finally, if you want a random set of passengers who follow a general pattern to better simulate real-world 
 conditions, you can use the `random_gaussian_floor_selection_passenger_provider`. This will randomly generate passenger
