@@ -90,10 +90,10 @@ def random_normal_floor_selection_passenger_provider(
     logger.info("generating randomly sampled passengers for each time step")
     for time_step, n_passengers in enumerate(np.random.binomial(n=n, p=p, size=n_steps)):
         source_floor = round(np.random.normal(loc=source_mean_floor, scale=source_std))
-        while source_floor > n_floors:
+        while not 1 <= source_floor <= n_floors:
             source_floor = round(np.random.normal(loc=source_mean_floor, scale=source_std))
         destination_floor = round(np.random.normal(loc=destination_mean_floor, scale=destination_std))
-        while destination_floor > n_floors or destination_floor == source_floor:
+        while not 1 <= destination_floor <= n_floors  or destination_floor == source_floor:
             destination_floor = round(np.random.normal(loc=destination_mean_floor, scale=destination_std))
         yield [Passenger(
             id=f"passenger{i + j}",
