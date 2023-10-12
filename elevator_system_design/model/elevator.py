@@ -120,7 +120,7 @@ class Elevator:
         """
         cur_dir_below_cur_floor, opposite_dir, cur_dir = self.targets
         for _ in range(3):
-            while len(cur_dir) and (cur_dir[0] * self.direction.value) == self.current_floor:
+            while len(cur_dir) and cur_dir[0] <= self.current_floor * self.direction.value:
                 self.current_stop_remaining = self.stop_time
                 heappop(cur_dir)
             if len(cur_dir) > 0:
@@ -141,6 +141,7 @@ class Elevator:
         This can be considered to be the movement achieved in one time-step for this elevator.
         :return: The code does not explicitly return anything.
         """
+        self.adjust_targets()
         cur_dir_below_cur_floor, opposite_dir, cur_dir = self.targets
         if self.current_stop_remaining > 0:
             self.current_stop_remaining -= 1
