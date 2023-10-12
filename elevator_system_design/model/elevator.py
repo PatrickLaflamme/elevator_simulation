@@ -12,12 +12,20 @@ class InvalidDisembarkRequest(Exception):
         self.passenger_dest_floor = passenger_dest_floor
         self.current_elevator_floor = current_elevator_floor
 
+    def __str__(self):
+        import json
+        return json.dumps(self.__dict__, indent=2)
+
 
 class InvalidEmbarkRequest(Exception):
     def __init__(self, passenger_id: str, passenger_source_floor: int, current_elevator_floor: int):
         self.passenger_id = passenger_id
         self.passenger_source_floor = passenger_source_floor
         self.current_elevator_floor = current_elevator_floor
+
+    def __str__(self):
+        import json
+        return json.dumps(self.__dict__, indent=2)
 
 
 class Elevator:
